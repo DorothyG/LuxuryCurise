@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="layout">
+    <head>
+        <title>index</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="../css/background.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+        <style>
+            form#search{
+                padding: 0 0 20px 30%;
+            }
+            input#name{
+                width:300px;
+            }
+            i{
+                margin: 0 15px 0 20px;
+            }
+            div#infoManageState{
+                display: none;
+            }
+            div#customerGroupStateView, div#ageLevelStateView{
+                width:50%;
+                float: left;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div id="firstNav">
+            <ul class="nav nav-tabs" style="background-color: #f9da83;">
+                <li class="active"><a ui-sref="roommanage" href="#roomManage" data-toggle="tab">客房管理</a></li>
+                <li><a ui-sref="infomanage" href="#infoManage" data-toggle="tab">信息管理</a></li>
+                <li><a ui-sref="engagemanage" href="#engageManage" data-toggle="tab">经营管理</a></li>
+            </ul>
+            <div class="tab-content" data-spy="scroll" data-target=".secondNav">
+                <div class="tab-pane in active" id="roomManage">
+                    <div class="secondNav">
+                        <ul class="nav nav-stacked" data-spy="affix">
+                            <li class="active"><a ui-sref="#checkInStateView" >
+                                    <i class="icon-building"></i>入住状态统计</a></li>
+                            <li><a href="#roomUseState">
+                                    <i class="icon-suitcase"></i>客房使用统计</a></li>
+                            <li><a href="#customerGroupState">
+                                    <i class="icon-coffee"></i>消费群体统计</a></li>
+                            <li><a href="#ageLevelState">
+                                    <i class="icon-eye-open"></i>年龄阶段统计</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-pane" id="infoManage">
+                    <div class="secondNav">
+                        <ul class="nav nav-stacked">
+                            <li class="active"><a href=#creditCheck">
+                                    <i class="icon-file-alt"></i>信用度审查</a></li>
+                            <li><a href="#realNameRegister">
+                                    <i class="icon-envelope"></i>实名制登记</a></li>
+                            <li><a href="#customerPayment">
+                                    <i class="icon-beer"></i>客人消费</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-pane" id="engageManage">
+                    <div class="secondNav">
+                        <ul class="nav nav-stacked">
+                            <li class="active"><a href="#retailDepart">
+                                    <i class="icon-bullhorn"></i>零售部</a></li>
+                            <li><a href="#entertainDepart">
+                                    <i class="icon-camera"></i>娱乐事业部</a></li>
+                            <li><a href="#foodDepart">
+                                    <i class="icon-food"></i>餐饮部</a></li>
+                            <li><a href="#roomDepart">
+                                    <i class="icon-home"></i>客房营收</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="content">
+            <div id="roomManageState">
+                <div id="checkInStateView" ui-view="checkInState"></div>
+                <hr />
+                <div id="roomUseStateView" ui-view="roomUseState"></div>
+                <hr />
+                <div id="customerGroupStateView" ui-view="customerGroup"></div>
+                <div id="ageLevelStateView" ui-view="ageLevel"></div>
+            </div>
+            <div id="infoManageState">
+                <div ui-view="creditCheck"></div>
+                <div ui-view="realNameRegister"></div>
+                <div ui-view="customerPayment"></div>
+            </div>
+        </div>
+        <div id="top">
+            <div id="curise" name="curise" class="dropdown">
+                <a id="curiseKind" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="../icon/Curise.png" width="56px" height="32px">
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="curiseKind">
+                    <li><a data-toggle="tab">美国维多利亚号</a></li>
+                    <li><a data-toggle="tab">东方皇家号</a></li>
+                </ul>
+            </div>
+            <font>豪华邮轮前台服务系统</font>
+            <div id="login" class="dropdown">
+                <a id="loginState" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-user icon-2x" id="user"></i>
+                    <label style="font-size:18px;">Dorothy</label>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="loginState">
+                    <li><a data-toggle="tab">设置</a></li>
+                    <li><a data-toggle="tab">退出</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="tabBackground">
+            <img src="../icon/perficient.png" alt="博可" width="160px" height="90px" style="margin:5px auto auto 10px;" />
+        </div>
+
+    </body>
+
+    <script src="../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+    <script src="../js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../js/Chart.min.js" type="text/javascript"></script>
+    <script src="../js/angular.min.js" type="text/javascript"></script>
+    <script src="../js/angular-ui-router.min.js" type="text/javascript"></script>
+    
+    <script>
+                                var mylayout = angular.module("layout", ["ui.router"]);
+                                mylayout.config(function ($stateProvider, $urlRouterProvider) {
+                                    $urlRouterProvider.otherwise("roommanage");
+                                    $stateProvider.state("roommanage", {
+                                        url: "/roommanage",
+                                        views: {
+                                            "checkInState": {
+                                                templateUrl: "checkInState.html",
+                                                controller: "checkInState"
+                                            },
+                                            "roomUseState": {
+                                                templateUrl: "roomUseState.html",
+                                                controller: "roomUseState"
+                                            },
+                                            "customerGroup": {
+                                                templateUrl: "customerGroupState.html",
+                                                controller: "customerGroupState"
+                                            },
+                                            "ageLevel": {
+                                                templateUrl: "ageLevelState.html",
+                                                controller: "ageLevelState"
+                                            }
+                                        }
+                                    })
+                                            .state("infomanage", {
+                                                url: "/infomanage",
+                                                views: {
+                                                    "creditCheck": {
+                                                        templateUrl: "creditCheck.html",
+                                                        controller: "creditCheck"
+                                                    },
+                                                    "realNameRegister": {
+                                                        templateUrl: "realNameRegister.html",
+                                                        controller: "realNameRegister"
+                                                    },
+                                                    "customerPayment": {
+                                                        templateUrl: "customerPayment.html",
+                                                        controller: "customerPayment"
+                                                    },
+                                                },
+                                                controller: function(){
+                                                    $("div#infoManageState").css("display", "block");
+                                                    $("div#roomManageState").css("display", "none");
+                                                }
+                                            })
+                                            .state("engagemanage", {
+                                                url: "/engagemanage",
+                                                views: {
+                                                    "retailDepart": {
+                                                        templateUrl: "retailDepart.html"
+                                                    },
+                                                    "entertainDepart": {
+                                                        templateUrl: "entertainDepart.html"
+                                                    },
+                                                    "foodDepart": {
+                                                        templateUrl: "foodDepart.html"
+                                                    },
+                                                    "roomDepart": {
+                                                        templateUrl: "roomDepart.html"
+                                                    }
+                                                }
+                                            })
+                                });
+
+                                mylayout.controller("checkInState", function () {
+                                    var data = {
+                                        labels: ["内舱房", "海景房", "阳台房", "套房"],
+                                        datasets: [
+                                            {
+                                                label: "未入住",
+                                                backgroundColor: "rgba(249,218,131,1)",
+                                                borderColor: "rgba(249,218,131,1)",
+                                                borderWidth: 1,
+                                                data: [65, 59, 90, 81]
+                                            },
+                                            {
+                                                label: "待入住",
+                                                backgroundColor: "rgba(144,238,144,1)",
+                                                borderColor: "rgba(144,238,144,1)",
+                                                borderWidth: 1,
+                                                data: [14, 23, 5, 14]
+                                            },
+                                            {
+                                                label: "已入住",
+                                                backgroundColor: "rgba(151,187,205,01)",
+                                                borderColor: "rgba(151,187,205,1)",
+                                                borderWidth: 1,
+                                                data: [28, 48, 40, 19]
+                                            }
+                                        ]
+                                    };
+                                    var ctx = document.getElementById("checkInStateChart").getContext("2d");
+                                    var chartBar = new Chart(ctx, {
+                                        type: 'bar',
+                                        data: data,
+                                        options: {
+                                            display: true
+                                        }
+                                    });
+                                });
+
+                                mylayout.controller("roomUseState", function () {
+                                    var data2 = {
+                                        labels: ["内舱房", "海景房", "阳台房", "套房"],
+                                        datasets: [
+                                            {
+                                                label: "未入住",
+                                                backgroundColor: "rgba(249,218,131,1)",
+                                                borderColor: "rgba(249,218,131,1)",
+                                                borderWidth: 1,
+                                                data: [65, 59, 90, 81]
+                                            },
+                                            {
+                                                label: "待入住",
+                                                backgroundColor: "rgba(144,238,144,1)",
+                                                borderColor: "rgba(144,238,144,1)",
+                                                borderWidth: 1,
+                                                data: [14, 23, 5, 14]
+                                            },
+                                            {
+                                                label: "已入住",
+                                                backgroundColor: "rgba(151,187,205,01)",
+                                                borderColor: "rgba(151,187,205,1)",
+                                                borderWidth: 1,
+                                                data: [28, 48, 40, 19]
+                                            }
+                                        ]
+                                    };
+                                    var ctx2 = document.getElementById("roomUseStateChart").getContext("2d");
+                                    var chartBar2 = new Chart(ctx2, {
+                                        type: 'bar',
+                                        data: data2,
+                                        options: {
+                                            display: true
+                                        }
+                                    });
+                                });
+
+                                mylayout.controller("customerGroupState", function () {
+                                    var data3 = {
+                                        labels: [
+                                            "青年",
+                                            "中年",
+                                            "老年"
+                                        ],
+                                        datasets: [
+                                            {
+                                                data: [30, 40, 20],
+                                                backgroundColor: [
+                                                    "#FF6384",
+                                                    "#36A2EB",
+                                                    "#FFCE56"
+                                                ],
+                                                hoverBackgroundColor: [
+                                                    "#FF6384",
+                                                    "#36A2EB",
+                                                    "#FFCE56"
+                                                ]
+                                            }
+                                        ]
+                                    };
+                                    var ctx3 = document.getElementById("customerGroupStateChart").getContext("2d");
+                                    var chartBar3 = new Chart(ctx3, {
+                                        type: 'pie',
+                                        data: data3,
+                                        options: {
+                                            display: true
+                                        }
+                                    });
+                                });
+
+                                mylayout.controller("ageLevelState", function () {
+                                    var data4 = {
+                                        labels: [
+                                            "青年",
+                                            "中年",
+                                            "老年"
+                                        ],
+                                        datasets: [
+                                            {
+                                                data: [30, 40, 20],
+                                                backgroundColor: [
+                                                    "#FF6384",
+                                                    "#36A2EB",
+                                                    "#FFCE56"
+                                                ],
+                                                hoverBackgroundColor: [
+                                                    "#FF6384",
+                                                    "#36A2EB",
+                                                    "#FFCE56"
+                                                ]
+                                            }
+                                        ]
+                                    };
+                                    var ctx4 = document.getElementById("ageLevelStateChart").getContext("2d");
+                                    var chartBar4 = new Chart(ctx4, {
+                                        type: 'pie',
+                                        data: data4,
+                                        options: {
+                                            display: true
+                                        }
+                                    });
+                                });
+                                
+                                mylayout.controller("creditCheck", function(){
+                                    
+                                })
+    </script>
+
+    <script>
+        $(function () {
+            $("div.secondNav li").click(function () {
+                $(this).css("background-color", "#FFF");
+                $(this).siblings().css("background-color", "#271f19");
+            })
+        });
+    </script>
+</html>
+
+

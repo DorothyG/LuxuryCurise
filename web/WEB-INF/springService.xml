@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <!-- 扫描所有@Service的组件 -->
+    <context:component-scan base-package="team.curise.entity.service"></context:component-scan>
+    <context:component-scan base-package="team.curise.controller.service"></context:component-scan>
+    <context:component-scan base-package="team.curise.controller.mana.service"></context:component-scan>
+    <!--<context:component-scan base-package="team.curise.filter"></context:component-scan>-->
+    <!-- 碰到了一个奇怪的问题，昨天是springDao中找不到类，现在是这个找不到类，今天springDao能找到类了，我下面要的这个类在sprigDao里面也能被找到
+    果然是这样，我刚刚重启了就可以了 -->
+    <!-- 注意一下，这里不要随便改，这里改了，写法也要改，不然就报错 nested exception is java.lang.NoClassDefFoundError: org/hibernate/engine/spi/SessionFactoryImplemento-->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+              p:sessionFactory-ref="sessionFactory"
+    >
+    </bean>
+	
+    <!-- 事务增强 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+	
+    <aop:config>
+        <!--通过aop定义事务增强切面,这里就是可以运行service下面的全部以Service结尾的类的所有方法-->
+        <aop:pointcut expression="execution(* service.*Service.*(..))" id="serviceMethod"/>
+        <!-- 引用事务增强 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
+    </aop:config>
+</beans>
