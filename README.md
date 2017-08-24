@@ -17,6 +17,6 @@
 后端方案：SSH框架<br/>
 前后端数据传输方式为json，异步请求用Ajax实现。<br/></li>
 <li><b>项目截图：</b><br/>
-![image](https://github.com/DorothyG/LuxuryCurise/raw/master/captures/f1.png)
+![github](https://github.com/DorothyG/LuxuryCurise/raw/master/captures/f1.png)
 </li>
 </ul>
